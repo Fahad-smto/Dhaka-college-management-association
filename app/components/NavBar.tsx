@@ -15,16 +15,17 @@ import {
   X,
   LogOut,
   User,
+  Sparkles,
 } from "lucide-react";
 
 // ─── Nav links ────────────────────────────────────────────
 const navLinks = [
-  { label: "হোম", href: "/" },
-  { label: "ইভেন্ট", href: "/events" },
-  { label: "গ্যালারি", href: "/gallery" },
-  { label: "সদস্যবৃন্দ", href: "/members" },
-  { label: "সংবাদ", href: "/news" },
-  { label: "নির্বাচন", href: "/elections" },
+  { label: "Home", href: "/" },
+  { label: "Events", href: "/events" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Members", href: "/members" },
+  { label: "News", href: "/news" },
+  { label: "Elections", href: "/elections" },
 ];
 
 // ─── Main Component ─────────────────────────────────────
@@ -44,119 +45,101 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── Top strip ─────────────────────────────────── */}
-      <div className="bg-blue-950 text-blue-200 text-xs py-1.5 px-4 flex justify-between items-center">
+      {/* ── Top strip - Modern Light ── */}
+      <div className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs py-2 px-4 flex justify-between items-center">
         <span className="hidden sm:block">
-          ঢাকা কলেজ ম্যানেজমেন্ট অ্যাসোসিয়েশন — আমরা একতায় বিশ্বাসী
+          Dhaka College Management Association — Believing in Unity
         </span>
-        <span className="sm:hidden">DCMA — ঢাকা কলেজ</span>
-        <div className="flex items-center gap-3">
-          <span>📞 01700-000000</span>
-          <span className="hidden sm:block">✉ dcma@dhakacollege.edu.bd</span>
+        <span className="sm:hidden">DCMA — Dhaka College</span>
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1">📞 01700-000000</span>
+          <span className="hidden sm:flex items-center gap-1">✉ dcma@dhakacollege.edu.bd</span>
         </div>
       </div>
 
-      {/* ── Main Navbar ────────────────────────────────── */}
+      {/* ── Main Navbar - Modern Light Design ── */}
       <nav
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white shadow-lg border-b border-blue-100"
-            : "bg-gradient-to-r from-blue-700 via-blue-600 to-blue-700"
+            ? "bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-100"
+            : "bg-white border-b border-slate-100"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
-            {/* ── Logo ── */}
+            {/* ── Logo - Modern ── */}
             <Link href="/" className="flex items-center gap-3 group shrink-0">
-              <div
-                className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-md ${
-                  scrolled ? "bg-blue-600" : "bg-white/20 backdrop-blur-sm"
-                }`}
-              >
-                <GraduationCap size={22} className="text-white" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all">
+                <GraduationCap size={20} className="text-white" />
               </div>
               <div className="leading-tight">
-                <p className={`font-bold text-sm ${scrolled ? "text-blue-800" : "text-white"}`}>
-                  ঢাকা কলেজ
+                <p className="font-bold text-sm text-slate-800">
+                  Dhaka College
                 </p>
-                <p className={`text-[10px] font-medium ${scrolled ? "text-blue-400" : "text-blue-200"}`}>
+                <p className="text-[10px] font-medium text-blue-500 tracking-wide">
                   DCMA
                 </p>
               </div>
             </Link>
 
-            {/* ── Desktop Nav Links ── */}
-            <div className="hidden md:flex items-center gap-1">
+            {/* ── Desktop Nav Links - Modern ── */}
+            <div className="hidden md:flex items-center gap-0.5">
               {navLinks.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                    scrolled
-                      ? "text-blue-700 hover:bg-blue-50"
-                      : "text-white/90 hover:bg-white/15"
-                  }`}
+                  className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
                 >
                   {item.label}
                 </Link>
               ))}
             </div>
 
-            {/* ── Right Side ── */}
-            <div className="flex items-center gap-2">
+            {/* ── Right Side - Modern ── */}
+            <div className="flex items-center gap-3">
               {isLoggedIn ? (
                 <>
-                  {/* Notification */}
-                  <button
-                    className={`relative w-9 h-9 rounded-lg flex items-center justify-center ${
-                      scrolled
-                        ? "text-blue-600 hover:bg-blue-50"
-                        : "text-white/80 hover:bg-white/15"
-                    }`}
-                  >
+                  {/* Notification Bell */}
+                  <button className="relative p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-all">
                     <Bell size={18} />
-                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
+                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-400 rounded-full ring-2 ring-white" />
                   </button>
 
-                  {/* User Menu */}
+                  {/* User Menu - Modern Dropdown */}
                   <div className="relative">
                     <button
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
-                      className={`flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl ${
-                        scrolled
-                          ? "hover:bg-blue-50 border border-blue-100"
-                          : "hover:bg-white/15 border border-white/20"
-                      }`}
+                      className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl hover:bg-slate-50 transition-all border border-slate-200"
                     >
-                      <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-bold">
+                      <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center text-white text-xs font-medium">
                         R
                       </div>
-                      <span className={`text-sm font-medium ${scrolled ? "text-blue-800" : "text-white"}`}>
-                        রাকিব
+                      <span className="text-sm font-medium text-slate-700">
+                        Rakib
                       </span>
-                      <ChevronDown size={13} className={scrolled ? "text-blue-400" : "text-white/60"} />
+                      <ChevronDown size={14} className="text-slate-400" />
                     </button>
 
-                    {/* Dropdown */}
+                    {/* Dropdown Menu */}
                     {userMenuOpen && (
-                      <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-blue-50 py-1.5">
+                      <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
                         <Link
                           href="/profile"
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-blue-700 hover:bg-blue-50"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
                           onClick={() => setUserMenuOpen(false)}
                         >
-                          <User size={15} />
-                          আমার প্রোফাইল
+                          <User size={14} className="text-slate-400" />
+                          My Profile
                         </Link>
                         <button
                           onClick={() => {
                             setIsLoggedIn(false);
                             setUserMenuOpen(false);
                           }}
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 w-full text-left"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 transition-colors w-full text-left"
                         >
-                          <LogOut size={15} />
-                          লগআউট
+                          <LogOut size={14} />
+                          Logout
                         </button>
                       </div>
                     )}
@@ -166,23 +149,15 @@ export default function Navbar() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setIsLoggedIn(true)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                      scrolled
-                        ? "text-blue-700 hover:bg-blue-50"
-                        : "text-white/90 hover:bg-white/15"
-                    }`}
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
                   >
-                    লগইন
+                    Login
                   </button>
                   <Link
                     href="/register"
-                    className={`px-4 py-2 rounded-lg text-sm font-semibold shadow-sm ${
-                      scrolled
-                        ? "bg-blue-600 text-white hover:bg-blue-700"
-                        : "bg-white text-blue-700 hover:bg-blue-50"
-                    }`}
+                    className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-sm hover:shadow-md transition-all"
                   >
-                    নিবন্ধন
+                    Register
                   </Link>
                 </div>
               )}
@@ -190,11 +165,7 @@ export default function Navbar() {
               {/* Mobile menu button */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className={`md:hidden w-9 h-9 rounded-lg flex items-center justify-center ${
-                  scrolled
-                    ? "text-blue-700 hover:bg-blue-50"
-                    : "text-white hover:bg-white/15"
-                }`}
+                className="md:hidden p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-all"
               >
                 {mobileOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
@@ -202,15 +173,15 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── Mobile Menu ── */}
+        {/* ── Mobile Menu - Modern Light ── */}
         {mobileOpen && (
-          <div className="md:hidden bg-white border-t border-blue-100 shadow-lg">
+          <div className="md:hidden bg-white border-t border-slate-100 shadow-lg">
             <div className="px-4 py-3 space-y-1">
               {navLinks.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center px-3 py-2.5 rounded-lg text-sm text-blue-700 hover:bg-blue-50"
+                  className="flex items-center px-3 py-2.5 rounded-lg text-sm text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
@@ -218,22 +189,22 @@ export default function Navbar() {
               ))}
               
               {!isLoggedIn && (
-                <div className="flex gap-2 pt-3 border-t border-blue-50 mt-2">
+                <div className="flex gap-2 pt-3 border-t border-slate-100 mt-2">
                   <button
                     onClick={() => {
                       setIsLoggedIn(true);
                       setMobileOpen(false);
                     }}
-                    className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium text-blue-700 border border-blue-200 hover:bg-blue-50"
+                    className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all"
                   >
-                    লগইন
+                    Login
                   </button>
                   <Link
                     href="/register"
-                    className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700"
+                    className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-md transition-all"
                     onClick={() => setMobileOpen(false)}
                   >
-                    নিবন্ধন
+                    Register
                   </Link>
                 </div>
               )}
@@ -244,10 +215,10 @@ export default function Navbar() {
                     setIsLoggedIn(false);
                     setMobileOpen(false);
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-red-600 hover:bg-red-50 mt-2 border-t border-blue-50 pt-3"
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-rose-600 hover:bg-rose-50 transition-all mt-2 border-t border-slate-100 pt-3"
                 >
-                  <LogOut size={15} />
-                  লগআউট
+                  <LogOut size={14} />
+                  Logout
                 </button>
               )}
             </div>
