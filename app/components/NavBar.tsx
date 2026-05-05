@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   GraduationCap,
   Home,
@@ -15,7 +16,6 @@ import {
   X,
   LogOut,
   User,
-  Sparkles,
 } from "lucide-react";
 
 // ─── Nav links ────────────────────────────────────────────
@@ -33,6 +33,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   // For demo - replace with actual auth later
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -67,17 +68,32 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
-            {/* ── Logo - Modern ── */}
+            {/* ── Logo - Modern with Next.js Image ── */}
             <Link href="/" className="flex items-center gap-3 group shrink-0">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all">
-                <GraduationCap size={20} className="text-white" />
-              </div>
+              {/* Logo with fallback */}
+              {!logoError ? (
+                <div className="relative w-10 h-10">
+                  <Image
+                    src="/dcma-logo.png"
+                    alt="DCMA Logo"
+                    width={40}
+                    height={40}
+                    className="rounded-xl object-contain"
+                    onError={() => setLogoError(true)}
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all">
+                  <GraduationCap size={20} className="text-white" />
+                </div>
+              )}
               <div className="leading-tight">
                 <p className="font-bold text-sm text-slate-800">
-                  Dhaka College
+                 Dhaka College Management Association
                 </p>
                 <p className="text-[10px] font-medium text-blue-500 tracking-wide">
-                  DCMA
+                  Believing in Unity
                 </p>
               </div>
             </Link>
@@ -122,7 +138,7 @@ export default function Navbar() {
 
                     {/* Dropdown Menu */}
                     {userMenuOpen && (
-                      <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
+                      <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5">
                         <Link
                           href="/profile"
                           className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
