@@ -39,16 +39,17 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu when window resizes to desktop
+  // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setMobileOpen(false);
-      }
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [mobileOpen]);
 
   return (
     <>
@@ -58,7 +59,7 @@ export default function Navbar() {
           Dhaka College Management Association — Believing in Unity
         </span>
         <span className="sm:hidden text-center">
-          DCMA — Dhaka College Management Association
+          DCMA — Dhaka College
         </span>
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1">📞 01700-000000</span>
@@ -66,17 +67,17 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ── Main Navbar - Modern Light Design ── */}
+      {/* ── Main Navbar ── */}
       <nav
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-100"
-            : "bg-white border-b border-slate-100"
-        }`}
+            ? "bg-white/80 backdrop-blur-md shadow-sm"
+            : "bg-white"
+        } border-b border-slate-100`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
-            {/* ── Logo - Modern ── */}
+            {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group shrink-0">
               {!logoError ? (
                 <div className="relative w-10 h-10">
@@ -91,21 +92,21 @@ export default function Navbar() {
                   />
                 </div>
               ) : (
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-sm">
                   <GraduationCap size={20} className="text-white" />
                 </div>
               )}
               <div className="leading-tight">
                 <p className="font-bold text-sm text-slate-800">
-                Dhaka College Management Association
+                  Dhaka College
                 </p>
                 <p className="text-[10px] font-medium text-blue-500 tracking-wide">
-                  Unity in Diversity
+                  DCMA
                 </p>
               </div>
             </Link>
 
-            {/* ── Desktop Nav Links - Hidden on mobile ── */}
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-0.5">
               {navLinks.map((item) => (
                 <Link
@@ -118,17 +119,15 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* ── Right Side ── */}
+            {/* Right Side */}
             <div className="flex items-center gap-3">
               {isLoggedIn ? (
                 <>
-                  {/* Notification Bell */}
-                  <button className="relative p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-all">
+                  <button className="hidden sm:block relative p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-all">
                     <Bell size={18} />
                     <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-400 rounded-full ring-2 ring-white" />
                   </button>
 
-                  {/* User Menu - Desktop */}
                   <div className="hidden md:block relative">
                     <button
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -143,15 +142,14 @@ export default function Navbar() {
                       <ChevronDown size={14} className="text-slate-400" />
                     </button>
 
-                    {/* Dropdown Menu */}
                     {userMenuOpen && (
                       <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5">
                         <Link
                           href="/profile"
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50"
                           onClick={() => setUserMenuOpen(false)}
                         >
-                          <User size={14} className="text-slate-400" />
+                          <User size={14} />
                           My Profile
                         </Link>
                         <button
@@ -159,7 +157,7 @@ export default function Navbar() {
                             setIsLoggedIn(false);
                             setUserMenuOpen(false);
                           }}
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 transition-colors w-full text-left"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 w-full text-left"
                         >
                           <LogOut size={14} />
                           Logout
@@ -167,112 +165,125 @@ export default function Navbar() {
                       </div>
                     )}
                   </div>
-
-                  {/* Mobile user icon */}
-                  <div className="md:hidden">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center text-white text-xs font-medium">
-                      R
-                    </div>
-                  </div>
                 </>
               ) : (
-                <div className="flex items-center gap-2">
+                <div className="hidden sm:flex items-center gap-2">
                   <button
                     onClick={() => setIsLoggedIn(true)}
-                    className="hidden sm:block px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
                   >
                     Login
                   </button>
                   <Link
                     href="/register"
-                    className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-sm hover:shadow-md transition-all"
+                    className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-sm hover:shadow-md"
                   >
                     Register
                   </Link>
                 </div>
               )}
 
-              {/* Mobile menu button - Always visible on mobile */}
+              {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="md:hidden p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-all"
+                className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-slate-600 hover:bg-slate-100 transition-all z-50"
                 aria-label="Toggle menu"
               >
-                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+                {mobileOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
             </div>
           </div>
         </div>
 
-        {/* ── Mobile Menu - Full width overlay ── */}
+        {/* Mobile Menu - Slide from right */}
         <div
-          className={`md:hidden fixed inset-x-0 top-[calc(4rem+1px)] bg-white border-t border-slate-100 shadow-lg transition-all duration-300 ease-in-out z-40 ${
-            mobileOpen
-              ? "opacity-100 translate-y-0 visible"
-              : "opacity-0 -translate-y-full invisible"
+          className={`fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-40 transition-transform duration-300 ease-in-out md:hidden ${
+            mobileOpen ? "translate-x-0" : "translate-x-full"
           }`}
+          style={{ top: 0 }}
         >
-          <div className="px-4 py-3 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
-            {navLinks.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex items-center px-3 py-3 rounded-lg text-base text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
-                onClick={() => setMobileOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            
-            {!isLoggedIn && (
-              <>
-                <div className="border-t border-slate-100 my-2"></div>
+          <div className="pt-20 pb-6 px-4">
+            {/* Mobile User Info */}
+            {isLoggedIn ? (
+              <div className="mb-6 pb-4 border-b border-slate-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center text-white text-lg font-bold">
+                    R
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-800">Rakib Hossain</p>
+                    <p className="text-xs text-slate-500">rakib@example.com</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="mb-6 pb-4 border-b border-slate-100 space-y-2">
                 <button
                   onClick={() => {
                     setIsLoggedIn(true);
                     setMobileOpen(false);
                   }}
-                  className="w-full text-center px-4 py-3 rounded-lg text-base font-medium text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all"
+                  className="w-full px-4 py-2.5 rounded-lg text-sm font-medium text-blue-600 border border-blue-200 hover:bg-blue-50"
                 >
                   Login
                 </button>
-              </>
-            )}
-            
-            {isLoggedIn && (
-              <>
-                <div className="border-t border-slate-100 my-2"></div>
                 <Link
-                  href="/profile"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg text-base text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
+                  href="/register"
+                  className="w-full block text-center px-4 py-2.5 rounded-lg text-sm font-semibold bg-gradient-to-r from-blue-500 to-blue-600 text-white"
                   onClick={() => setMobileOpen(false)}
                 >
-                  <User size={18} />
-                  My Profile
+                  Register
                 </Link>
-                <button
-                  onClick={() => {
-                    setIsLoggedIn(false);
-                    setMobileOpen(false);
-                  }}
-                  className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-base text-rose-600 hover:bg-rose-50 transition-all"
-                >
-                  <LogOut size={18} />
-                  Logout
-                </button>
-              </>
+              </div>
             )}
+
+            {/* Mobile Navigation Links */}
+            <div className="space-y-1">
+              {navLinks.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center px-3 py-3 rounded-lg text-base text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+              
+              {isLoggedIn && (
+                <>
+                  <Link
+                    href="/profile"
+                    className="flex items-center gap-3 px-3 py-3 rounded-lg text-base text-slate-600 hover:text-blue-600 hover:bg-slate-50"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <User size={18} />
+                    My Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setIsLoggedIn(false);
+                      setMobileOpen(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-base text-rose-600 hover:bg-rose-50 mt-4"
+                  >
+                    <LogOut size={18} />
+                    Logout
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
-      </nav>
 
-      {/* Overlay backdrop for mobile menu */}
-      {mobileOpen && (
-        <div
-          className="md:hidden fixed inset-0 bg-black/20 z-30"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
+        {/* Overlay */}
+        {mobileOpen && (
+          <div
+            className="fixed inset-0 bg-black/30 z-30 md:hidden"
+            onClick={() => setMobileOpen(false)}
+          />
+        )}
+      </nav>
     </>
   );
 }
