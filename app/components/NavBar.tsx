@@ -5,11 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   GraduationCap,
-  Home,
-  CalendarDays,
-  Users,
-  ImageIcon,
-  Vote,
   Bell,
   ChevronDown,
   Menu,
@@ -44,14 +39,27 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close mobile menu when window resizes to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMobileOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <>
       {/* ── Top strip - Modern Light ── */}
-      <div className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs py-2 px-4 flex justify-between items-center">
+      <div className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs py-2 px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
         <span className="hidden sm:block">
           Dhaka College Management Association — Believing in Unity
         </span>
-        <span className="sm:hidden">DCMA — Dhaka College</span>
+        <span className="sm:hidden text-center">
+          DCMA — Dhaka College Management Association
+        </span>
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1">📞 01700-000000</span>
           <span className="hidden sm:flex items-center gap-1">✉ dcma@dhakacollege.edu.bd</span>
@@ -68,9 +76,8 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
-            {/* ── Logo - Modern with Next.js Image ── */}
+            {/* ── Logo - Modern ── */}
             <Link href="/" className="flex items-center gap-3 group shrink-0">
-              {/* Logo with fallback */}
               {!logoError ? (
                 <div className="relative w-10 h-10">
                   <Image
@@ -90,15 +97,15 @@ export default function Navbar() {
               )}
               <div className="leading-tight">
                 <p className="font-bold text-sm text-slate-800">
-                 Dhaka College Management Association
+                Dhaka College Management Association
                 </p>
                 <p className="text-[10px] font-medium text-blue-500 tracking-wide">
-                  Believing in Unity
+                  Unity in Diversity
                 </p>
               </div>
             </Link>
 
-            {/* ── Desktop Nav Links - Modern ── */}
+            {/* ── Desktop Nav Links - Hidden on mobile ── */}
             <div className="hidden md:flex items-center gap-0.5">
               {navLinks.map((item) => (
                 <Link
@@ -111,7 +118,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* ── Right Side - Modern ── */}
+            {/* ── Right Side ── */}
             <div className="flex items-center gap-3">
               {isLoggedIn ? (
                 <>
@@ -121,8 +128,8 @@ export default function Navbar() {
                     <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-400 rounded-full ring-2 ring-white" />
                   </button>
 
-                  {/* User Menu - Modern Dropdown */}
-                  <div className="relative">
+                  {/* User Menu - Desktop */}
+                  <div className="hidden md:block relative">
                     <button
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
                       className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl hover:bg-slate-50 transition-all border border-slate-200"
@@ -160,12 +167,19 @@ export default function Navbar() {
                       </div>
                     )}
                   </div>
+
+                  {/* Mobile user icon */}
+                  <div className="md:hidden">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center text-white text-xs font-medium">
+                      R
+                    </div>
+                  </div>
                 </>
               ) : (
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setIsLoggedIn(true)}
-                    className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
+                    className="hidden sm:block px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
                   >
                     Login
                   </button>
@@ -178,10 +192,11 @@ export default function Navbar() {
                 </div>
               )}
 
-              {/* Mobile menu button */}
+              {/* Mobile menu button - Always visible on mobile */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="md:hidden p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-all"
+                aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
@@ -189,58 +204,75 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── Mobile Menu - Modern Light ── */}
-        {mobileOpen && (
-          <div className="md:hidden bg-white border-t border-slate-100 shadow-lg">
-            <div className="px-4 py-3 space-y-1">
-              {navLinks.map((item) => (
+        {/* ── Mobile Menu - Full width overlay ── */}
+        <div
+          className={`md:hidden fixed inset-x-0 top-[calc(4rem+1px)] bg-white border-t border-slate-100 shadow-lg transition-all duration-300 ease-in-out z-40 ${
+            mobileOpen
+              ? "opacity-100 translate-y-0 visible"
+              : "opacity-0 -translate-y-full invisible"
+          }`}
+        >
+          <div className="px-4 py-3 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
+            {navLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center px-3 py-3 rounded-lg text-base text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+            
+            {!isLoggedIn && (
+              <>
+                <div className="border-t border-slate-100 my-2"></div>
+                <button
+                  onClick={() => {
+                    setIsLoggedIn(true);
+                    setMobileOpen(false);
+                  }}
+                  className="w-full text-center px-4 py-3 rounded-lg text-base font-medium text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all"
+                >
+                  Login
+                </button>
+              </>
+            )}
+            
+            {isLoggedIn && (
+              <>
+                <div className="border-t border-slate-100 my-2"></div>
                 <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-center px-3 py-2.5 rounded-lg text-sm text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
+                  href="/profile"
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg text-base text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all"
                   onClick={() => setMobileOpen(false)}
                 >
-                  {item.label}
+                  <User size={18} />
+                  My Profile
                 </Link>
-              ))}
-              
-              {!isLoggedIn && (
-                <div className="flex gap-2 pt-3 border-t border-slate-100 mt-2">
-                  <button
-                    onClick={() => {
-                      setIsLoggedIn(true);
-                      setMobileOpen(false);
-                    }}
-                    className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-medium text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all"
-                  >
-                    Login
-                  </button>
-                  <Link
-                    href="/register"
-                    className="flex-1 text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-md transition-all"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    Register
-                  </Link>
-                </div>
-              )}
-              
-              {isLoggedIn && (
                 <button
                   onClick={() => {
                     setIsLoggedIn(false);
                     setMobileOpen(false);
                   }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-rose-600 hover:bg-rose-50 transition-all mt-2 border-t border-slate-100 pt-3"
+                  className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-base text-rose-600 hover:bg-rose-50 transition-all"
                 >
-                  <LogOut size={14} />
+                  <LogOut size={18} />
                   Logout
                 </button>
-              )}
-            </div>
+              </>
+            )}
           </div>
-        )}
+        </div>
       </nav>
+
+      {/* Overlay backdrop for mobile menu */}
+      {mobileOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/20 z-30"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
     </>
   );
 }
