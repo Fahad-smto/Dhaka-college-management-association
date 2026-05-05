@@ -2,18 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { 
   Mail, 
   Phone, 
-  Linkedin, 
-  Facebook, 
-  Twitter, 
   ChevronRight,
   Award,
   Users,
   Calendar,
-  Star
+  Star,
+  Globe
 } from "lucide-react";
 
 export default function LeadershipTeam() {
@@ -26,15 +23,14 @@ export default function LeadershipTeam() {
       position: "President",
       role: "executive",
       department: "Executive Committee",
-      image: "/team/president.jpg",
       email: "president@dcma.edu.bd",
       phone: "+880 1700-000001",
       bio: "Leading DCMA with vision and dedication for student development",
       achievements: ["5+ years leadership", "Organized 20+ events", "Student welfare advocate"],
       social: {
         linkedin: "#",
-        facebook: "#",
         twitter: "#",
+        website: "#",
       },
     },
     {
@@ -43,15 +39,14 @@ export default function LeadershipTeam() {
       position: "Vice President",
       role: "executive",
       department: "Executive Committee",
-      image: "/team/vp.jpg",
       email: "vp@dcma.edu.bd",
       phone: "+880 1700-000002",
       bio: "Passionate about empowering students through various programs",
       achievements: ["Women in leadership", "Event management expert", "Public speaker"],
       social: {
         linkedin: "#",
-        facebook: "#",
         twitter: "#",
+        website: "#",
       },
     },
     {
@@ -60,15 +55,14 @@ export default function LeadershipTeam() {
       position: "General Secretary",
       role: "executive",
       department: "Executive Committee",
-      image: "/team/secretary.jpg",
       email: "secretary@dcma.edu.bd",
       phone: "+880 1700-000003",
       bio: "Ensuring smooth operations and communication within the association",
       achievements: ["Organizational expert", "Team coordinator", "Crisis manager"],
       social: {
         linkedin: "#",
-        facebook: "#",
         twitter: "#",
+        website: "#",
       },
     },
     {
@@ -77,15 +71,14 @@ export default function LeadershipTeam() {
       position: "Treasurer",
       role: "executive",
       department: "Finance Committee",
-      image: "/team/treasurer.jpg",
       email: "treasurer@dcma.edu.bd",
       phone: "+880 1700-000004",
       bio: "Managing financial resources transparently and efficiently",
       achievements: ["Financial analyst", "Budget planning", "Audit expert"],
       social: {
         linkedin: "#",
-        facebook: "#",
         twitter: "#",
+        website: "#",
       },
     },
     {
@@ -94,15 +87,14 @@ export default function LeadershipTeam() {
       position: "Organizing Secretary",
       role: "executive",
       department: "Event Management",
-      image: "/team/organizer.jpg",
       email: "organizing@dcma.edu.bd",
       phone: "+880 1700-000005",
       bio: "Planning and executing successful events throughout the year",
       achievements: ["Event planner", "Logistics expert", "Team leader"],
       social: {
         linkedin: "#",
-        facebook: "#",
         twitter: "#",
+        website: "#",
       },
     },
     {
@@ -111,15 +103,14 @@ export default function LeadershipTeam() {
       position: "Cultural Secretary",
       role: "executive",
       department: "Cultural Affairs",
-      image: "/team/cultural.jpg",
       email: "cultural@dcma.edu.bd",
       phone: "+880 1700-000006",
       bio: "Promoting cultural activities and student talents",
       achievements: ["Cultural coordinator", "Event organizer", "Talent hunter"],
       social: {
         linkedin: "#",
-        facebook: "#",
         twitter: "#",
+        website: "#",
       },
     },
   ];
@@ -185,7 +176,7 @@ export default function LeadershipTeam() {
               className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100"
             >
               {/* Profile Image Placeholder */}
-              <div className="relative h-64 bg-gradient-to-br from-blue-400 to-blue-600 overflow-hidden">
+              <div className="relative h-56 bg-gradient-to-br from-blue-400 to-blue-600 overflow-hidden">
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
                 
                 {/* Position Badge */}
@@ -193,17 +184,18 @@ export default function LeadershipTeam() {
                   {member.position}
                 </div>
                 
+                {/* Initial Avatar for demo */}
+                <div className="flex items-center justify-center h-full">
+                  <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white text-3xl font-bold">
+                    {member.name[0]}
+                  </div>
+                </div>
+
                 {/* Social Links Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <div className="flex gap-3 justify-center">
-                    <a href={member.social.facebook} className="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-all">
-                      <Facebook size={18} className="text-white" />
-                    </a>
-                    <a href={member.social.linkedin} className="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-all">
-                      <Linkedin size={18} className="text-white" />
-                    </a>
-                    <a href={member.social.twitter} className="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-all">
-                      <Twitter size={18} className="text-white" />
+                    <a href={member.social.website} className="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-all">
+                      <Globe size={18} className="text-white" />
                     </a>
                   </div>
                 </div>
