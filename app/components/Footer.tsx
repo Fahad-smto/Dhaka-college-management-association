@@ -48,7 +48,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gradient-to-b from-slate-900 to-slate-950 text-white">
+    <footer className="bg-gradient-to-b from-blue-600 to-slate-700 text-white">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
