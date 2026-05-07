@@ -4,12 +4,14 @@ import Banner from "./components/Banner";
 import FeaturedEvents from "./components/FeaturedEvents";
 import LeadershipTeam from "./components/LeadershipTeam";
 import Footer from "./components/Footer";
+import LatestNews from "./components/LatestNews";
 
 export default function Home() {
   return (
     <div className="">
       <Navbar />
      <Banner />
+     <LatestNews></LatestNews>
      <FeaturedEvents></FeaturedEvents>
      <LeadershipTeam></LeadershipTeam>
      <Footer></Footer>
