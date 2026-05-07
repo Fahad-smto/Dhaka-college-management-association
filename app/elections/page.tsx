@@ -23,8 +23,8 @@ import {
   Crown,
   Star
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from  "../components/NavBar";
+import Footer from  "../components/Footer";
 
 interface ElectedMember {
   id: number;
