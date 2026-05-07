@@ -193,13 +193,7 @@ export default function FeaturedEvents() {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <Link
-            href="/events"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all"
-          >
-            View All Events
-            <ArrowRight size={16} />
-          </Link>
+         
         </div>
       </div>
     </section>
