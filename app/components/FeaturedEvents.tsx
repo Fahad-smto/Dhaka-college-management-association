@@ -1,5 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Calendar, MapPin, Users, Clock, ArrowRight, Trophy, Briefcase, GraduationCap } from "lucide-react";
+
 export default function FeaturedEvents() {
   const [activeTab, setActiveTab] = useState("upcoming");
 
